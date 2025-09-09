@@ -25,7 +25,7 @@ function AddProduct() {
       console.log("Adding product:", product);
       await firebaseService.addProduct({
         ...product,
-        price: parseFloat(product.price), // ensure number
+        price: parseFloat(product.price), 
       });
       setMessage("✅ Product added successfully!");
       setProduct({
@@ -111,7 +111,9 @@ function AddProduct() {
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
               <span>Adding...</span>
             </div>
-          ) : "Add Product"}
+          ) : (
+            "Add Product"
+          )}
         </button>
       </form>
 
