@@ -181,13 +181,3 @@ Service layer for Firebase operations:
 
 - GitHub: [@Krishmodi33](https://github.com/Krishmodi33)
 
-## 🙏 Acknowledgments
-
-- Firebase for backend services
-- React team for the amazing framework
-- Tailwind CSS for the utility-first CSS framework
-- Lucide React for beautiful icons
-
----
-
-⭐ Star this repository if you found it helpful!
