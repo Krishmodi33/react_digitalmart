@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAcWaJbrO2cPuZRVFiBOYm2kMEVqG43Lsw",
   authDomain: "react-2d497.firebaseapp.com",
   projectId: "react-2d497",
-  storageBucket: "react-2d497.appspot.com", // ✅ fix: ".app" → ".appspot.com"
+  storageBucket: "react-2d497.appspot.com", 
   messagingSenderId: "849578272822",
   appId: "1:849578272822:web:24f1ac54493bfaf82d5097",
   measurementId: "G-B77ZREF56Q"

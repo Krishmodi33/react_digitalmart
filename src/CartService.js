@@ -1,4 +1,3 @@
-// src/CartService.js - NEW CART SERVICE TO BYPASS CACHE
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 

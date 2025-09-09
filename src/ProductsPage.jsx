@@ -6,7 +6,11 @@ import ProductCard from "./ProductCard";
 const ProductsPage = () => {
   const { products, loading } = useContext(AppContext);
 
-  if (loading) return <div className="text-center py-20">Loading products...</div>;
+  if (loading) return (
+    <div className="flex justify-center items-center py-20">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+    </div>
+  );
   if (!products.length) return <div className="text-center py-20">No products found.</div>;
 
   return (

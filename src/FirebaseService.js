@@ -133,7 +133,6 @@ class FirebaseService {
       const userData = userDoc.data();
       return userData?.cart || [];
     } else {
-      // Create user document with empty cart if it doesn't exist
       await setDoc(userRef, { cart: [] });
       return [];
     }

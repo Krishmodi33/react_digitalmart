@@ -106,7 +106,12 @@ function AddProduct() {
           disabled={loading}
           className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold hover:scale-105 transition-all duration-300"
         >
-          {loading ? "Adding..." : "Add Product"}
+          {loading ? (
+            <div className="flex items-center justify-center space-x-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <span>Adding...</span>
+            </div>
+          ) : "Add Product"}
         </button>
       </form>
 
