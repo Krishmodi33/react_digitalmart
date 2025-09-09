@@ -238,7 +238,8 @@ const App = () => {
         const product = products.find((p) => p.id === cartItem.productId);
         return product ? { ...product, quantity: cartItem.quantity } : null;
       })
-      .filter(Boolean);
+      .filter(Boolean) // Remove null items (products not found)
+      .filter((item) => item.quantity > 0); // Remove items with quantity 0
     setCartProducts(cartWithProducts);
   }, [cart, products]);
 
@@ -915,7 +916,14 @@ const CartItem = ({ item, index }) => {
         <div className="flex items-center space-x-4">
           <div className="flex items-center bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl shadow-lg">
             <button
-              onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
+              onClick={() => {
+                // Only decrease if quantity > 1, otherwise remove item
+                if (item.quantity > 1) {
+                  updateCartQuantity(item.id, item.quantity - 1);
+                } else {
+                  updateCartQuantity(item.id, 0); // This will remove the item
+                }
+              }}
               className="p-3 hover:bg-purple-100 transition-colors rounded-l-xl"
             >
               <Minus className="w-4 h-4 text-purple-600" />

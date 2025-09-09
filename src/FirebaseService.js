@@ -142,14 +142,47 @@ class FirebaseService {
     console.log("🚀 SIMPLE FIX - addToCart called for user:", uid);
 
     try {
+      // Validate quantity - prevent negative values
+      if (quantity < 0) {
+        quantity = 0;
+      }
+
+      // Don't add if quantity is 0
+      if (quantity === 0) {
+        console.log("🚀 Quantity is 0, not adding to cart");
+        return await this.getUserCart(uid);
+      }
+
       // Create user document with cart if it doesn't exist
       const userRef = doc(this.db, "users", uid);
 
-      // Always create/update the document directly
+      // Get existing cart data
+      const userDoc = await getDoc(userRef);
+      let existingCart = [];
+
+      if (userDoc.exists()) {
+        existingCart = userDoc.data().cart || [];
+      }
+
+      // Check if product already exists in cart
+      const existingItemIndex = existingCart.findIndex(
+        (item) => item.productId === productId
+      );
+
+      if (existingItemIndex >= 0) {
+        // Update quantity if item already exists
+        existingCart[existingItemIndex].quantity += quantity;
+      } else {
+        // Add new item to cart
+        existingCart.push({ productId, quantity });
+      }
+
       const cartData = {
-        cart: [{ productId, quantity }],
+        cart: existingCart,
         lastUpdated: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
+        createdAt: userDoc.exists()
+          ? userDoc.data().createdAt
+          : new Date().toISOString(),
       };
 
       console.log("🚀 Setting cart data:", cartData);
@@ -187,9 +220,25 @@ class FirebaseService {
       cart = userDoc.data().cart || [];
     }
 
-    cart = cart.map((item) =>
-      item.productId === productId ? { ...item, quantity } : item
-    );
+    // Validate quantity - prevent negative values
+    if (quantity < 0) {
+      quantity = 0;
+    }
+
+    // Update cart: either update quantity or remove item if quantity is 0
+    cart = cart
+      .map((item) => {
+        if (item.productId === productId) {
+          // If quantity is 0, return null to remove the item
+          if (quantity === 0) {
+            return null;
+          }
+          // Otherwise, update the quantity
+          return { ...item, quantity };
+        }
+        return item;
+      })
+      .filter(Boolean); // Remove null items (items with quantity 0)
 
     await updateDoc(userRef, { cart });
     return cart;
